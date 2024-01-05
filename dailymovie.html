@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Movie Recommendation</title>
+</head>
+<body>
+
+<h1>Daily Movie Recommendation</h1>
+
+<div id="movie-recommendation">
+    <h2 id="movie-title"></h2>
+    <img id="movie-poster" alt="Movie Poster">
+</div>
+
+<script>
+    const MOVIE_LIST_LENGTH = 10_000;
+    const apiKey = '03f3fa53ab9f0b658cf37093aba68e8c';
+
+    const epochTimeInSeconds = Math.floor(Date.now() / 1000);
+    const epochTimeInDays = epochTimeInSeconds / (24 * 60 * 60);
+
+    const todaysIndex = Math.floor(epochTimeInDays) % MOVIE_LIST_LENGTH;
+
+    const fetchMovieDetails = async (movieId) => {
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`);
+            const movieData = await response.json();
+            return movieData;
+        } catch (error) {
+            console.error('Error fetching movie details:', error);
+        }
+    };
+
+    const displayMovieDetails = async () => {
+        const todaysMovieId = todaysIndex + 1;
+        const movieDetails = await fetchMovieDetails(todaysMovieId);
+
+        const movieTitleElement = document.getElementById('movie-title');
+        const moviePosterElement = document.getElementById('movie-poster');
+
+        movieTitleElement.textContent = `Today's Movie Recommendation: ${movieDetails.title}`;
+        moviePosterElement.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
+    };
+
+    displayMovieDetails();
+</script>
+
+</body>
+</html>

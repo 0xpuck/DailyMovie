@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Daily Movie</title>
+    <link rel="stylesheet" href="project.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <style>
+        body {
+          margin: 0;
+          font-family: 'Arial', sans-serif;
+        }
+    
+        .nightmode {
+          background-color: #1a1a1a;
+          color: #ffffff;
+        }
+    
+        header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 0;
+          background-color: #333333;
+        }
+    
+        .menu {
+          display: flex;
+          gap: 10px;
+        }
+    
+        .icon {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          color: #ffffff;
+        }
+    
+        img {
+          max-width: 100%;
+          height: auto;
+        }
+    
+        .alert-container {
+          margin-top: 20px;
+        }
+    
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+    
+        .modal {
+          background: #fff;
+          padding: 20px;
+          border-radius: 5px;
+          position: relative;
+        }
+    
+        .close-modal-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+        }
+    
+        /* Dark Mode Switch Styles */
+        #dark-mode-theme {
+          display: flex;
+          align-items: center;
+        }
+    
+        #dark-mode-toggle {
+          margin-left: 10px;
+        }
+
+        .date-pickers {
+          display: flex;
+        }
+      </style>
+</head>
+<body class="nightmode">
+    <div id="game">
+      <header>
+        <div class="menu">
+          <button id="help-button" class="icon" aria-label="help" onclick="toggleModal('help-modal')">
+            <ion-icon name="help-circle-outline"></ion-icon>
+          </button>
+        </div>
+        <h1>Daily Movies</h1>
+        <div class="menu">
+          <button id="settings-button" class="icon" aria-label="settings" onclick="toggleModal('settings-modal')">
+            <ion-icon name="settings-outline"></ion-icon>
+          </button>
+        </div>
+      </header>
+      <div class="alert-container" data-alert-container></div>
+      <div id="help-modal" hidden class="modal">
+        <div class="overlay">
+          <div class="content">
+            <header>
+              <div></div>
+              <div class="modal-title">ABOUT</div>
+              <button class="icon close-modal-button" aria-label="close" onclick="toggleModal('help-modal')">
+                X
+              </button>
+            </header>
+            <section>
+              <div class="instructions">
+                <p>Find a  <strong>New Movie</strong> everyday.</p>
+                <p>Explore the daily movie's poster, rating, and a brief description, creating an engaging and informative experience for movie enthusiasts</p>
+                
+                <p><strong>A new Movie will be available each day!</strong></p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <div id="settings-modal" hidden class="modal">
+        <div class="overlay">
+          <div class="content">
+            <header>
+              <div></div>
+              <div class="modal-title">SETTINGS</div>
+              <button class="icon close-modal-button" aria-label="close" onclick="toggleModal('settings-modal')">
+                X
+              </button>
+            </header>
+            <section>
+              <div class="setting" id="dark-mode-theme">
+                <div class="text">
+                  <div class="title">Dark Mode</div>
+                  <div class="description">Enable dark mode for a comfortable experience.</div>
+                </div>
+                <div class="control" id="dark-mode-toggle">
+                  <label for="dark-mode-switch">Dark Mode:</label>
+                  <input type="checkbox" id="dark-mode-switch" onclick="toggleDarkMode()">
+                </div>
+              </div>
+              <div class="setting">
+                <div class="text">
+                  <div class="title">Support Creator</div>
+                </div>
+                <div class="control">
+                  <a class="social" href="#" target="_blank"><ion-icon name="logo-twitter"></ion-icon></a>
+                  <a class="social" href="#" target="_blank"><ion-icon name="logo-instagram"></ion-icon></a>
+                  <a class="social" href="#" target="_blank"><ion-icon name="logo-github"></ion-icon></a>
+                </div>
+              </div>
+              <div class="setting">
+                <div class="text">
+                  <div class="title"> Share </div>
+                </div>
+                <div class="control">
+                  <a href="#">Link</a>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <script>
+      function toggleModal(modalId) {
+        var modal = document.getElementById(modalId);
+        modal.hidden = !modal.hidden;
+      }
+  
+      function toggleDarkMode() {
+        var body = document.body;
+        body.classList.toggle("nightmode");
+      }
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+        <div class="wrapper">
+            <div id="poster">
+                <img id="poster_image" src="" alt="">
+            </div>
+            <div id="content">
+                <div id="title">
+                    <h1 id="titleContent">This is Title</h1>
+                    <div id="list-genres"></div>
+                </div>
+                <div id="overview">
+                    <h3>Overview</h3>
+                    <p id="content-overview">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi, magnam, ex veritatis ea nulla odio libero voluptate atque ipsum nisi unde a fugit asperiores provident! Dolorum voluptate deserunt vel facilis.
+                    </p>
+                </div>
+                <div id="popularityDisplay">
+                    <span id="popularitySpan1">Popularity: </span><span id="popularitySpan2"> 9.572</span>
+                </div>
+                <div id="runtimeDisplay">
+                    <span id="runtimeDisplaySpan">Run time: </span><span id="runtimeDisplaySpan2"> 9.572</span>
+                </div>
+                <div id="releaseDateDisplay">
+                    <span id="releaseDateDisplaySpan">Release date: </span> <span id="releaseDateDisplaySpan2">27/9/1010</span>
+                </div>
+                
+                <div id="ytbTrailer">
+
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+
+        </div>
+    </div>
+    <script src="365.js"></script>  
+</html>
+
+    
+                   
