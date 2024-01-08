@@ -176,8 +176,12 @@
     </div>
   </div>
   <div id="movie-recommendation">
-    <h2 id="movie-title"></h2>
     <img id="movie-poster" alt="Movie Poster">
+    <h2 id="movie-title"></h2>
+    <p id="movie-releaseDate"></p>
+    <a href="" id="movie-trailer"></a>
+    <p id="movie-overview"></p>
+    <p id="movie-runtime"></h2>
   </div>
   <script>
     function toggleModal(modalId) {
@@ -251,6 +255,7 @@
 
     function getMovie() {
       const MOVIE_LIST_LENGTH = 14_000;
+      const apiUrl = `https://api.themoviedb.org/3/movie/`;
       const apiKey = '03f3fa53ab9f0b658cf37093aba68e8c';
 
       const todaysIndex = Math.floor(epochTimeInDays) % MOVIE_LIST_LENGTH;
@@ -258,6 +263,7 @@
           try {
               const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&vote_average.gte=7.5&with_genres=18&page=${pgNum + 1}`);
               const movieData = await response.json();
+              console.log(movieId, movieData.results[movieId]);
               return movieData.results[movieId];
           } catch (error) {
               console.error('Error fetching movie details:', error);
@@ -268,16 +274,40 @@
           const pageNum = todaysIndex / 20;
           const todaysMovieId = todaysIndex % 20;
           const movieDetails = await fetchMovieDetails(pageNum, todaysMovieId);
-
           const movieTitleElement = document.getElementById('movie-title');
+          const movieReleaseDate = document.getElementById('movie-releaseDate')
+          const releaseDate = new Date(movieDetails.release_date);
+          const formattedDate = releaseDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
           const moviePosterElement = document.getElementById('movie-poster');
-
+          const movieOverviewElement = document.getElementById('movie-overview');
+          const movieRuntimeElement = document.getElementById('movie-runtime');
+          const movieDetailsUrl = `${apiUrl}${movieDetails.id}?api_key=${apiKey}&append_to_response=videos`;
+          const detailsResponse = await fetch(movieDetailsUrl);
+          const detailsData = await detailsResponse.json();
+          console.log('aaaaa',detailsData);
           movieTitleElement.textContent = `Today's Movie Recommendation: ${movieDetails.title}`;
+          movieReleaseDate.textContent = `Release Date: ${formattedDate}`;
           moviePosterElement.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
+          const overview = detailsData.overview ? `${detailsData.overview} minutes` : 'There is no information about of Movie Overview provided';
+          movieOverviewElement.textContent = `${overview}`;
+          movieRuntimeElement.textContent = `${detailsData.runtime} minutes`;
+          if (detailsData.videos && detailsData.videos.results.length > 0) {
+            const trailerKey = detailsData.videos.results[0].key;
+            const trailerLinkElement = document.getElementById('movie-trailer');
+            trailerLinkElement.href = `https://www.youtube.com/watch?v=${trailerKey}`;
+            trailerLinkElement.textContent = 'Watch Trailer';
+          }
+          else {
+            const trailerLinkElement = document.getElementById('movie-trailer');
+            trailerLinkElement.style.textDecoration = 'none';
+            trailerLinkElement.removeAttribute('href');
+            trailerLinkElement.textContent = 'There is no information about of Movie Trailer provided';
+          }
       };
 
       displayMovieDetails();
     }
   </script>
+
 </body>
 </html>
