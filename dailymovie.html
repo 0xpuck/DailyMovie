@@ -286,7 +286,7 @@
           movieTitleElement.textContent = `Today's Movie Recommendation: ${movieDetails.title}`;
           movieReleaseDate.textContent = `Release Date: ${formattedDate}`;
           moviePosterElement.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
-          const overview = detailsData.overview ? `${detailsData.overview} minutes` : 'There is no information about of Movie Overview provided';
+          const overview = detailsData.overview ? `${detailsData.overview}` : 'There is no information about of Movie Overview provided';
           movieOverviewElement.textContent = `${overview}`;
           movieRuntimeElement.textContent = `${detailsData.runtime} minutes`;
           if (detailsData.videos && detailsData.videos.results.length > 0) {
