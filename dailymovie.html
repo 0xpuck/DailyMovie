@@ -239,7 +239,6 @@
     }
 
     const currentDate = new Date();
-
     const formattedDate = formatDate(currentDate);
 
     document.getElementById('select-date').value = formattedDate;
@@ -254,14 +253,13 @@
     });
 
     function getMovie() {
-      const MOVIE_LIST_LENGTH = 14_000;
+      const MOVIE_LIST_LENGTH = 4_700;
       const apiUrl = `https://api.themoviedb.org/3/movie/`;
       const apiKey = '03f3fa53ab9f0b658cf37093aba68e8c';
-
       const todaysIndex = Math.floor(epochTimeInDays) % MOVIE_LIST_LENGTH;
       const fetchMovieDetails = async (pgNum, movieId) => {
           try {
-              const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&vote_average.gte=7.5&with_genres=18&page=${pgNum + 1}`);
+              const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&vote_average.gte=7.5&with_genres=18&page=${pgNum + 1}&region=US`);
               const movieData = await response.json();
               console.log(movieId, movieData.results[movieId]);
               return movieData.results[movieId];
