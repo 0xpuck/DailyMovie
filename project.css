@@ -44,7 +44,12 @@ p {
     color: black;
   }
   
-  
+  .div-content {
+    width: 100%;
+    display: grid;
+    gap: 50px;
+    text-align: center;
+  }
   
   
   .alert-container {
@@ -113,10 +118,8 @@ p {
     transition: all 0.5s;
     width: 250px;
     height: 50px;
-    background-color: dodgerblue;
+    background-color: rgb(58, 186, 23);
     color: white;
-    border: none;
-    outline: none;
 }
 
 .btn2:hover {
@@ -229,7 +232,7 @@ p {
 .each-genres {
     cursor: pointer;
     margin-right: 10px;
-    margin-top: 10px;
+    margin-top: 0px;
     background: #797979;
     color: white;
     border: 1px solid #000;
@@ -388,7 +391,9 @@ p {
     z-index: 99;
   }
   
-  
+  .div {
+    display: block;
+  }
   .select-hide {
     display: none;
   }
